@@ -1,0 +1,7 @@
+{
+    "name": "IPL Cricket API",
+    "description": "A simple ipl statistics api app for Heroku",
+    "repository": "https://github.com/deepspraj/ipl-live-score-api",
+    "logo": "https://i.ibb.co/ftzHwQB/logo.png",
+    "keywords": ["ipl", "cricket", "api", "live-stats", "1pl-2021"]
+  }
