@@ -33,6 +33,8 @@ https://www.cricket.one/
 
 All response are in JSON (JavaScript Object Notation) Format.
 
+Match is LIVE
+
 Live Score (server 1)
 ```
 {
@@ -58,7 +60,17 @@ Live Score (server 2)
   }
 }
 ```
+Match END's 
 
+Live Score (server 1)
+```
+{}
+```
+
+Live Score (server 2)
+```
+{}
+```
 
 ## Running Locally
 
