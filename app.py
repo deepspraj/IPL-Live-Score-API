@@ -123,82 +123,75 @@ def ipl_points_table():
 
 @app.route('/ipl-2021-live-score-s1')
 def ipl_live_score_s1():
-    try:
-        
-        link = 'https://www.sportskeeda.com/go/ipl?ref=carousel'
 
-        response_sk = requests.get(link)
-        live_score = {}
         
-        if (response_sk.status_code == 200):
+    link = 'https://www.sportskeeda.com/go/ipl?ref=carousel'
+
+    response_sk = requests.get(link)
+    live_score = {}
+    
+    if (response_sk.status_code == 200):
+        sk_html = response_sk.content
+        soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
+
+        listed_matches = soup_sk_obtained.find_all('div', class_="keeda_cricket_single_match")
+
+        count = 0
+        live_match_count = []
+        link_all_matches = []
+        link_to_scrape = []
+
+        for listed_match in listed_matches:
+            if listed_match.find_all('div', class_="live"):
+                live_match_count.append(count)
+
+            count += 1
+
+
+
+        for live_match in soup_sk_obtained.find_all('a', class_="keeda_cricket_match_link"):
+            link_all_matches.append(live_match['href'])
+
+
+        for i in live_match_count:
+            link_to_scrape.append("https://www.sportskeeda.com"+ link_all_matches[i])
+        
+        
+        teams = []
+        scores = []
+        match = 1
+
+        for link in link_to_scrape:
+
+            response_sk = requests.get(link)
+            
             sk_html = response_sk.content
             soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            listed_matches = soup_sk_obtained.find_all('div', class_="keeda_cricket_single_match")
-
-            count = 0
-            live_match_count = []
-            link_all_matches = []
-            link_to_scrape = []
-
-            for listed_match in listed_matches:
-                if listed_match.find_all('div', class_="live"):
-                    live_match_count.append(count)
-
-                count += 1
-
-
-
-            for live_match in soup_sk_obtained.find_all('a', class_="keeda_cricket_match_link"):
-                link_all_matches.append(live_match['href'])
-
-
-            for i in live_match_count:
-                link_to_scrape.append("https://www.sportskeeda.com"+ link_all_matches[i])
+            live = soup_sk_obtained.find_all('div', class_="cricket-block score-strip-holder")
             
+
+            for team in live[0].find_all('span', class_="country"):
+                temp = team.text
+                temp = temp.replace('\n', '')
+                teams.append(temp)
             
-            teams = []
-            scores = []
-            match = 1
+            for team in live[0].find_all('span', class_="score"):
+                temp = team.text
+                temp = temp.replace('\n', '')
+                scores.append(temp)
+            
+            if scores[1] == "":
+                scores[1] = "N.A"
 
-            for link in link_to_scrape:
+            
+            live_score["Match " + str(match)] = { "Team 1" : teams[0], "1st Innings" : scores[0], "Team 2" : teams[1], "2nd Innings" : scores[1]}  
 
-                response_sk = requests.get(link)
-                
-                sk_html = response_sk.content
-                soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-                live = soup_sk_obtained.find_all('div', class_="cricket-block score-strip-holder")
-                
+            teams.clear()
+            scores.clear()
+            
 
-                for team in live[0].find_all('span', class_="country"):
-                    temp = team.text
-                    temp = temp.replace('\n', '')
-                    teams.append(temp)
-                
-                for team in live[0].find_all('span', class_="score"):
-                    temp = team.text
-                    temp = temp.replace('\n', '')
-                    scores.append(temp)
-                
-                if scores[1] == "":
-                    scores[1] = "N.A"
+            match += 1
 
-                
-                live_score["Match " + str(match)] = { "Team 1" : teams[0], "1st Innings" : scores[0], "Team 2" : teams[1], "2nd Innings" : scores[1]}  
-
-                teams.clear()
-                scores.clear()
-                
-
-                match += 1
-
-    except:
-        live_score = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
 
     return jsonify(live_score)
 
@@ -260,6 +253,76 @@ def ipl_live_score_s2():
                 live_score['Match' + str(match)] = { "Team 1" : team1, "Score 1" : score1, "Over's 1" : over1, "Team 2" : team2, "Score 2" : score2, "Over's 2" : over2 }
 
     return jsonify(live_score)
+
+
+
+
+@app.route('/ipl-2021-live-score-s3')
+def ipl_live_score_s3():
+    
+    live_score = {}
+    
+    link = 'https://m.cricbuzz.com/cricket-series/3472/indian-premier-league-2021'
+
+    response_sk = requests.get(link)
+    live_score = {}
+    
+    if (response_sk.status_code == 200):
+        sk_html = response_sk.content
+        soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
+
+        listed_matches = soup_sk_obtained.find_all('a', class_="cb-matches-container")
+
+        new_links = []
+
+        for match in listed_matches:
+
+            if match.text[0] == "L":
+                new_links.append('https://m.cricbuzz.com' + match['href'])
+        
+        count = 1
+
+        for link in new_links:
+            response_sk = requests.get(link)
+            live_score = {}
+
+            rival1 = ""
+            rival2 = ""
+            score1 = ""
+            score2 = ""
+            crr = ""
+            rr = ""
+
+            if (response_sk.status_code == 200):
+                sk_html = response_sk.content
+                soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
+
+                listed_matches = soup_sk_obtained.find_all('div', class_="col-xs-9 col-lg-9 dis-inline")
+
+                for i in listed_matches[0].find_all('span', class_="teamscores"):
+                    temp = i.text
+                    rival1, score1 = temp.split('-')
+                              
+                for i in listed_matches[0].find_all('span', class_="miniscore-teams"):
+                    temp = i.text
+                    rival2, score2 = temp.split('-')
+                
+                j = 0
+                for i in listed_matches[0].find_all('span', class_="crr"):
+                    temp = i.text
+                    if j ==0:
+                        crr = temp
+                        j += 1
+                    elif j ==1:
+                        rr = temp
+                        j += 1
+                        
+                if (int(score1[-3]) != 2) and (int(score2[-3]) != 2):
+                    live_score['Match ' +str(count)] = { "Team 1" : rival1[:-1], "1st innings" : score1[1:], "Team 2" : rival2[:-1], "2nd innings" : score2[1:], crr[:3] : crr[6:], rr[:2] : rr[6:]  }
+                count += 1
+                
+    return jsonify(live_score)
+
 
 @app.route('/ipl-2021-mi-squad')
 def mumbai_indians_squad():
