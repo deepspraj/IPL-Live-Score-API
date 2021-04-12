@@ -11,6 +11,7 @@ API | Description | Auth | HTTPS |
 |[Points Table](https://ipl-cricket-api.herokuapp.com/ipl-2021-points-table) | Points Table | No | Yes |
 |[Live Score](https://ipl-cricket-api.herokuapp.com/ipl-2021-live-score-s1) Server 1 | Live Score | No | Yes |
 |[Live Score](https://ipl-cricket-api.herokuapp.com/ipl-2021-live-score-s2) Server 2 | Live Score | No | Yes |
+|[Live Score](https://ipl-cricket-api.herokuapp.com/ipl-2021-live-score-s3) Server 3 | Live Score | No | Yes |
 |[MI Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-mi-squad) | MI Team Members | No | Yes |
 |[CSK Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-csk-squad) | CSK Team Members | No | Yes |
 |[RR Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-rr-squad) | RR Team Members | No | Yes |
@@ -25,8 +26,9 @@ API | Description | Auth | HTTPS |
 ## Sraping Websites 
 
 ```
-https://www.sportskeeda.com/
-https://www.cricket.one/
+https://www.sportskeeda.com
+https://www.cricket.one
+https://m.cricbuzz.com
 ```
 
 ## Sample Response
@@ -60,6 +62,20 @@ Live Score (server 2)
   }
 }
 ```
+
+Live Score (server 3)
+```
+{
+  "Match 1": {
+    "Team 1": "Chennai Super Kings",
+    "1st Innings": "188/7 (20 ov)",
+    "Team 2": "Delhi Capitals",
+    "2nd Innings": "101/0 (10.1 ov)",
+    "CRR": "9.46",
+    "RR": "11.96"
+  }
+}
+```
 Match END's 
 
 Live Score (server 1)
@@ -67,6 +83,10 @@ Live Score (server 1)
 {}
 ```
 
+Live Score (server 2)
+```
+{}
+```
 Live Score (server 2)
 ```
 {}
