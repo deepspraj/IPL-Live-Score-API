@@ -286,6 +286,7 @@ def ipl_live_score_s3():
             response_sk = requests.get(link)
             live_score = {}
 
+            comp = ""
             rival1 = ""
             rival2 = ""
             score1 = ""
@@ -298,6 +299,10 @@ def ipl_live_score_s3():
                 soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
 
                 listed_matches = soup_sk_obtained.find_all('div', class_="col-xs-9 col-lg-9 dis-inline")
+
+                for i in soup_sk_obtained.find_all('h4', class_="cb-list-item ui-header ui-branding-header"):
+                    temp = i.text
+                    comp, _ = temp.split(',')
 
                 for i in listed_matches[0].find_all('span', class_="teamscores"):
                     temp = i.text
@@ -317,10 +322,13 @@ def ipl_live_score_s3():
                         rr = temp
                         j += 1
                         
-                if (int(score1[-3]) != 2) and (int(score2[-3]) != 2):
-                    live_score['Match ' +str(count)] = { "Team 1" : rival1[:-1], "1st innings" : score1[1:], "Team 2" : rival2[:-1], "2nd innings" : score2[1:], crr[:3] : crr[6:], rr[:2] : rr[6:]  }
-                count += 1
+                if rr[2] != ":":
+                    live_score['Match ' +str(count)] = { "Now" : comp, "Team 1" : rival1[:-1], "1st innings" : score1[1:], "Team 2" : rival2[:-1], "2nd innings" : score2[1:], crr[:3] : crr[6:], rr[:2] : rr[6:]  }
+                else:
+                    live_score['Match ' + str(count)] = { "Now" : comp, "Team 1" : rival2[:-1], "Team 1 Score" : score2[1:], crr[:3] : crr[6:]}
                 
+                count += 1
+
     return jsonify(live_score)
 
 
