@@ -12,14 +12,14 @@ API | Description | Auth | HTTPS |
 |[Live Score](https://ipl-cricket-api.herokuapp.com/ipl-2021-live-score-s1) Server 1 | Live Score | No | Yes |
 |[Live Score](https://ipl-cricket-api.herokuapp.com/ipl-2021-live-score-s2) Server 2 | Live Score | No | Yes |
 |[Live Score](https://ipl-cricket-api.herokuapp.com/ipl-2021-live-score-s3) Server 3 | Live Score | No | Yes |
-|[MI Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-mi-squad) | MI Team Members | No | Yes |
-|[CSK Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-csk-squad) | CSK Team Members | No | Yes |
-|[RR Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-rr-squad) | RR Team Members | No | Yes |
-|[RCB Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-rcb-squad) | RCB Team Members | No | Yes |
-|[PK Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-pk-squad) | PK Team Members | No | Yes |
-|[DC Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-dc-squad) | DC Team Members | No | Yes |
-|[SRH Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-srh-squad) | SRH Team Members | No | Yes |
-|[KKR Squad](https://ipl-cricket-api.herokuapp.com/ipl-2021-kkr-squad) | KKR Team Members | No | Yes |
+|[MI Squad](https://ipl-cricket-api.herokuapp.com/squad/mi) | MI Team Members | No | Yes |
+|[CSK Squad](https://ipl-cricket-api.herokuapp.com/squad/csk) | CSK Team Members | No | Yes |
+|[RR Squad](https://ipl-cricket-api.herokuapp.com/squad/rr) | RR Team Members | No | Yes |
+|[RCB Squad](https://ipl-cricket-api.herokuapp.com/squad/rcb) | RCB Team Members | No | Yes |
+|[PK Squad](https://ipl-cricket-api.herokuapp.com/squad/pk) | PK Team Members | No | Yes |
+|[DC Squad](https://ipl-cricket-api.herokuapp.com/squad/dc) | DC Team Members | No | Yes |
+|[SRH Squad](https://ipl-cricket-api.herokuapp.com/squad/srh) | SRH Team Members | No | Yes |
+|[KKR Squad](https://ipl-cricket-api.herokuapp.com/squad/kkr) | KKR Team Members | No | Yes |
 
 <br>
 

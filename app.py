@@ -332,62 +332,26 @@ def ipl_live_score_s3():
     return jsonify(live_score)
 
 
-@app.route('/ipl-2021-mi-squad')
-def mumbai_indians_squad():
+@app.route("/squad/<string:team_micro>")
+def get_squad(team_micro):
+    teams = {
+        "mi" : "mumbai-indians",
+        "rcb" : "royal-challengers-bangalore",
+        "csk": "chennai-super-kings",
+        "dc" : "delhi-daredevils",
+        "pk" : "kings-xi-punjab",
+        "kkr" : "kolkata-knight-riders",
+        "rr" : "rajasthan-royals",
+        "srh" : "sunrisers-hyderabad"
+        }
+
 
     try:
-
-        link = 'https://www.sportskeeda.com/team/mumbai-indians'
-
-        response_sk = requests.get(link)
-        mi_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-            temp_dict = {}
-
-            for i in range (len(cricket_name)):
-                temp_dict = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-                mi_squad['Player ' + str(i+1)] = temp_dict
-
-    except :
-        mi_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-    return jsonify(mi_squad)
-
-
-@app.route('/ipl-2021-rcb-squad')
-def royal_challengers_bangalore_squad():
-    
-    try:
-
-        link = 'https://www.sportskeeda.com/team/royal-challengers-bangalore'
+        team_macro = teams[team_micro.lower()]
+        link = 'https://www.sportskeeda.com/team/' + team_macro
 
         response_sk = requests.get(link)
-        rcb_squad = {}
+        squad = {}
             
         if (response_sk.status_code == 200):
 
@@ -411,292 +375,22 @@ def royal_challengers_bangalore_squad():
                 
 
             for i in range (len(cricket_name)):
-                rcb_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
+                squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
+
+            squad["status_code"] = 200
 
     except :
-        rcb_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-
-    return jsonify(rcb_squad)
-
-
-@app.route('/ipl-2021-csk-squad')
-def chennai_super_kings_squad():
-    try:
-
-        link = 'https://www.sportskeeda.com/team/chennai-super-kings'
-
-        response_sk = requests.get(link)
-        csk_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-
-            for i in range (len(cricket_name)):
-                csk_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-    except :
-        csk_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-
-    return jsonify(csk_squad)
-
-
-
-@app.route('/ipl-2021-dc-squad')
-def delhi_capitals_squad():
-    try:
-
-        link = 'https://www.sportskeeda.com/team/delhi-daredevils'
-
-        response_sk = requests.get(link)
-        dc_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-
-            for i in range (len(cricket_name)):
-                dc_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-    except :
-        dc_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-
-    return jsonify(dc_squad)
-
-
-
-@app.route('/ipl-2021-pk-squad')
-def punjab_kings_squad():
-    try:
-
-        link = 'https://www.sportskeeda.com/team/kings-xi-punjab'
-
-        response_sk = requests.get(link)
-        pk_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-
-            for i in range (len(cricket_name)):
-                pk_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-    except :
-        pk_squad = {
-            'Status Code' : 500,
+        squad = {
+            'status_code' : 500,
             'Title' : 'Something Went Wrong.',
             'Message' : 'Sorry pal, Our servers ran into some problem.',
             'Resolution' : "You can try the search again after few sec or head to the web instead."
             }
 
 
-    return jsonify(pk_squad)
+    return jsonify(squad)
 
 
-@app.route('/ipl-2021-kkr-squad')
-def kolkata_knight_riders_squad():
-    try:
-
-        link = 'https://www.sportskeeda.com/team/kolkata-knight-riders'
-
-        response_sk = requests.get(link)
-        kkr_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-
-            for i in range (len(cricket_name)):
-                kkr_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-    except :
-        kkr_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-
-
-    return jsonify(kkr_squad)
-
-
-
-
-
-@app.route('/ipl-2021-rr-squad')
-def rajasthan_royals_squad():
-    try:
-
-        link = 'https://www.sportskeeda.com/team/rajasthan-royals'
-
-        response_sk = requests.get(link)
-        rr_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-
-            for i in range (len(cricket_name)):
-                rr_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-    except :
-        rr_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-
-
-    return jsonify(rr_squad)
-
-
-
-
-@app.route('/ipl-2021-srh-squad')
-def sunrisers_hyderabad_squad():
-    try:
-
-        link = 'https://www.sportskeeda.com/team/sunrisers-hyderabad'
-
-        response_sk = requests.get(link)
-        srh_squad = {}
-            
-        if (response_sk.status_code == 200):
-
-            sk_html = response_sk.content
-            soup_sk_obtained = BeautifulSoup(sk_html,features='html.parser')
-
-            cricket_name = []
-            cricketer_role = []
-            
-            main_section = soup_sk_obtained.find_all('table', class_='stats-table team-table')
-
-            for cricketer in main_section[0].find_all('td', class_='headcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricket_name.append(temp)
-
-            for cricketer in main_section[0].find_all('td', class_='secondcol'):
-                temp = cricketer.text
-                temp = temp.replace('\n', '')
-                cricketer_role.append(temp) 
-                
-
-            for i in range (len(cricket_name)):
-                srh_squad['Player ' + str(i+1)] = { 'Name' : cricket_name[i], 'Role' : cricketer_role[i]}
-
-    except :
-        srh_squad = {
-            'Status Code' : 500,
-            'Title' : 'Something Went Wrong.',
-            'Message' : 'Sorry pal, Our servers ran into some problem.',
-            'Resolution' : "You can try the search again after few sec or head to the web instead."
-            }
-
-
-    return jsonify(srh_squad)
 
 @app.route('/ipl-winners')
 def ipl_winners():
